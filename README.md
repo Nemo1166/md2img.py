@@ -1,5 +1,7 @@
 # Markdown to Image API (md2img)
 
+English | [简体中文](./README-zh.md)
+
 This is a FastAPI-based microservice that converts Markdown content into beautiful, high-quality images. It uses `uv` for environment management, `markdown` for parsing, Jinja2 for HTML templating with GitHub-like styles, and Playwright for rendering the actual screenshots in a headless Chromium browser.
 
 ## AIGC Statement
@@ -22,17 +24,42 @@ This project was built with collaboration of Google Gemini 3.1 Pro, in Antigravi
 
 ## Getting Started
 
-### Running Locally with Docker
+### 1. Docker Compose (Recommended)
 
-1. Clone the repository and configure your environment:
+Docker Compose is the easiest way to run the service using the pre-built image from GitHub Container Registry.
+
+1. Ensure you have Docker Compose installed. You don't need to clone the entire repository.
+2. Download the `docker-compose.yml` file:
    ```bash
-   cp .env.example .env # Or create a .env with APP_PORT=3921
+   curl -O https://raw.githubusercontent.com/Nemo1166/md2img/refs/heads/master/docker-compose.yml
    ```
-2. Build and start the container using Docker Compose:
+
+3. Start the container:
    ```bash
    docker compose up -d
    ```
-   > Note: The container builds a custom image installing Playwright Chromium binaries to allow headless rendering.
+
+### 2. Local Development (uv)
+
+If you wish to run the app directly on your host machine:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/nemo1166/md2img.git
+   cd md2img
+   cp .env.example .env
+   ```
+
+2. Install dependencies using [uv](https://github.com/astral-sh/uv):
+   ```bash
+   uv sync
+   uv run playwright install --with-deps chromium
+   ```
+
+3. Run the development server:
+   ```bash
+   uv run uvicorn main:app --host 0.0.0.0 --port 3921 --reload
+   ```
 
 ### API Usage
 
@@ -79,3 +106,4 @@ curl -X POST http://localhost:3921/api/generate_image \
 - `public/`: The directory where generated `.png` screenshots are stored and mounted statically.
 - `Dockerfile`: Container image build instructions.
 - `docker-compose.yml`: Compose definitions to run the application with volume mappings.
+- `.env.example`: Example environment variables configuration file.

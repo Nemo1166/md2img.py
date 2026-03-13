@@ -1,13 +1,10 @@
-version: '3.8'
-
 services:
-  api:
+  md2img:
     image: ghcr.io/nemo1166/md2img:latest
-    # build: .
     ports:
-      - "${APP_PORT:-8000}:8000"
+      - "${APP_PORT:-3921}:8000"
     volumes:
       - ./public:/app/public
-    env_file:
-      - .env
+    environment:
+      - APP_PORT=${APP_PORT:-3921}
     restart: unless-stopped
